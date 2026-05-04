@@ -25,7 +25,7 @@
         await app.init({
           width: 800,
           height: 800,
-          backgroundColor: 0x1a1a2e,
+          backgroundColor: 0x000000,
         });
         document.body.appendChild(app.canvas);
 
@@ -58,8 +58,38 @@
         });
 
         const speed = 3;
+        const hillSpeed = speed * 0.4;
 
-           const treeTextures = [];
+        const hillTextures = [];
+
+        for (let i = 1; i <= 3; i++) {
+          const texture = await PIXI.Assets.load(`hills/${i}.png`);
+          hillTextures.push(texture);
+        }
+        const hillScale = app.screen.height / 2160;
+        const hillWidth = 3840 * hillScale;
+        const hillSequence = [0, 1, 2, 2, 1, 0];
+        const hillFlip = [false, false, false, true, true, true];
+        const hills = [];
+
+        for (let i = 0; i < hillSequence.length; i++) {
+          const hill = new PIXI.Sprite(hillTextures[hillSequence[i]]);
+
+          hill.scale.set(hillScale);
+          hill.anchor.set(0, 0);
+           hill.x = (i - 1) * hillWidth;
+          hill.y = 0;
+
+          if (hillFlip[i]) {
+            hill.scale.x = -hillScale;
+            hill.x = (i - 1 + 1) * hillWidth;  
+          }
+
+          app.stage.addChild(hill);
+          hills.push(hill);
+        }
+
+        const treeTextures = [];
         const treeCount = 6;
         for (let i = 1; i <= treeCount; i++) {
           const texture = await PIXI.Assets.load(`Trees/tree-${i}.png`);
@@ -93,10 +123,16 @@
             for (const tree of trees) {
               tree.x -= speed;
             }
+            for (const hill of hills) {
+              hill.x -= hillSpeed;
+            }
           } else if (movingLeft) {
             character.scale.set(-0.3, 0.3);
             for (const tree of trees) {
               tree.x += speed;
+            }
+            for (const hill of hills) {
+              hill.x += hillSpeed;
             }
           }
           if (movingLeft || movingRight) {
@@ -113,9 +149,17 @@
               tree.x -= worldWidth;
             }
           }
+          const hillWorldWidth = hillSequence.length * hillWidth;
+
+          for (const hill of hills) {
+            if (hill.x < -hillWidth *2 ) {
+              hill.x += hillWorldWidth;
+            } else if (hill.x > hillWorldWidth) {
+              hill.x -= hillWorldWidth;
+            }
+          }
         });
 
-     
         app.stage.addChild(character);
       })();
     </script>
