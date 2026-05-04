@@ -4,6 +4,27 @@
     <meta charset="UTF-8" />
     <title>Walk cycle</title>
     <style>
+      #controls {
+        position: fixed;
+        bottom: 30px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        padding: 0 40px;
+        box-sizing: border-box;
+      }
+
+      #controls button {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+        border-radius: 50%;
+        border: none;
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+        cursor: pointer;
+        user-select: none;
+      }
       body {
         margin: 0;
         background: #b1b1ff;
@@ -18,6 +39,10 @@
     </style>
   </head>
   <body>
+    <div id="controls">
+      <button id="btn-left">←</button>
+      <button id="btn-right">→</button>
+    </div>
     <script src="https://pixijs.download/release/pixi.js"></script>
     <script>
       (async () => {
@@ -56,6 +81,27 @@
         window.addEventListener("keyup", (e) => {
           keys[e.key] = false;
         });
+        document
+          .getElementById("btn-left")
+          .addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            keys["ArrowLeft"] = true;
+          });
+        document.getElementById("btn-left").addEventListener("touchend", () => {
+          keys["ArrowLeft"] = false;
+        });
+
+        document
+          .getElementById("btn-right")
+          .addEventListener("touchstart", (e) => {
+            e.preventDefault();
+            keys["ArrowRight"] = true;
+          });
+        document
+          .getElementById("btn-right")
+          .addEventListener("touchend", () => {
+            keys["ArrowRight"] = false;
+          });
 
         const speed = 3;
         const hillSpeed = speed * 0.4;
@@ -77,12 +123,12 @@
 
           hill.scale.set(hillScale);
           hill.anchor.set(0, 0);
-           hill.x = (i - 1) * hillWidth;
+          hill.x = (i - 1) * hillWidth;
           hill.y = 0;
 
           if (hillFlip[i]) {
             hill.scale.x = -hillScale;
-            hill.x = (i - 1 + 1) * hillWidth;  
+            hill.x = (i - 1 + 1) * hillWidth;
           }
 
           app.stage.addChild(hill);
@@ -152,7 +198,7 @@
           const hillWorldWidth = hillSequence.length * hillWidth;
 
           for (const hill of hills) {
-            if (hill.x < -hillWidth *2 ) {
+            if (hill.x < -hillWidth * 2) {
               hill.x += hillWorldWidth;
             } else if (hill.x > hillWorldWidth) {
               hill.x -= hillWorldWidth;
