@@ -81,22 +81,26 @@
         window.addEventListener("keyup", (e) => {
           keys[e.key] = false;
         });
-        document
-          .getElementById("btn-left")
-          .addEventListener("touchstart", (e) => {
+        document.getElementById("btn-left").addEventListener(
+          "touchstart",
+          (e) => {
             e.preventDefault();
             keys["ArrowLeft"] = true;
-          },{ passive: false });
+          },
+          { passive: false },
+        );
         document.getElementById("btn-left").addEventListener("touchend", () => {
           keys["ArrowLeft"] = false;
         });
 
-        document
-          .getElementById("btn-right")
-          .addEventListener("touchstart", (e) => {
+        document.getElementById("btn-right").addEventListener(
+          "touchstart",
+          (e) => {
             e.preventDefault();
             keys["ArrowRight"] = true;
-          },{ passive: false });
+          },
+          { passive: false },
+        );
         document
           .getElementById("btn-right")
           .addEventListener("touchend", () => {
@@ -112,8 +116,8 @@
           const texture = await PIXI.Assets.load(`hills/${i}.png`);
           hillTextures.push(texture);
         }
-        const hillScale = app.screen.height / 2160;
-        const hillWidth = 3840 * hillScale;
+        const hillScale = app.screen.height / 1080;
+        const hillWidth = 1920 * hillScale;
         const hillSequence = [0, 1, 2, 2, 1, 0];
         const hillFlip = [false, false, false, true, true, true];
         const hills = [];
