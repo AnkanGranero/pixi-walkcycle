@@ -81,6 +81,22 @@
         window.addEventListener("keyup", (e) => {
           keys[e.key] = false;
         });
+        const footstep1 = new Audio("sounds/footsteps/1.mp3");
+        const footstep2 = new Audio("sounds/footsteps/2.mp3");
+        let lastFrame = -1;
+
+        character.onFrameChange = (frame) => {
+          if (!character.playing) return;
+          if (frame === 1 && lastFrame !== 1) {
+            footstep1.currentTime = 0;
+            footstep1.play();
+          }
+          if (frame === 8 && lastFrame !== 8) {
+            footstep2.currentTime = 0;
+            footstep2.play();
+          }
+          lastFrame = frame;
+        };
         document.getElementById("btn-left").addEventListener(
           "touchstart",
           (e) => {
@@ -230,6 +246,17 @@
         });
 
         app.stage.addChild(character);
+        const bgMusic = new Audio("sounds/background.mp3");
+        bgMusic.loop = true;
+        bgMusic.volume = 0.4;
+        const startMusic = () => {
+          bgMusic.play();
+          window.removeEventListener("keydown", startMusic);
+          window.removeEventListener("touchstart", startMusic);
+        };
+
+        window.addEventListener("keydown", startMusic);
+        window.addEventListener("touchstart", startMusic);
         updatePositions();
       })();
     </script>
