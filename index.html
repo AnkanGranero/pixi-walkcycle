@@ -55,7 +55,7 @@
         document.body.appendChild(app.canvas);
 
         const frameCount = 14;
-        const screenScale = app.screen.height / 800;
+        let screenScale = app.screen.height / 800;
         const textures = [];
 
         for (let i = 1; i <= frameCount; i++) {
