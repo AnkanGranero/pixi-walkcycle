@@ -71,7 +71,6 @@
         character.animationSpeed = 0.3;
         character.anchor.set(0.4, 1.0);
         character.x = app.screen.width / 2;
-        character.y = app.screen.height - 20;
         character.scale = 0.6 * screenScale;
 
         const keys = {};
@@ -129,10 +128,8 @@
           hill.scale.set(hillScale);
           hill.anchor.set(0, 0);
           hill.x = (i - 1) * hillWidth;
-          hill.y = 0;
 
           if (hillFlip[i]) {
-            hill.scale.x = -hillScale;
             hill.x = (i - 1 + 1) * hillWidth;
           }
 
@@ -159,8 +156,6 @@
           tree.anchor.set(0.5, 1.0);
           tree.scale.set(0.8 * screenScale);
           tree.x = i * treeSpacing;
-          tree.y = app.screen.height - 20;
-
           app.stage.addChild(tree);
           trees.push(tree);
         }
@@ -210,14 +205,26 @@
             }
           }
         });
+        function updatePositions() {
+          character.x = app.screen.width / 2;
+          character.y = app.screen.height - 20;
+
+          for (const tree of trees) {
+            tree.y = app.screen.height - 20;
+          }
+
+          for (const hill of hills) {
+            hill.y = 0;
+          }
+        }
 
         window.addEventListener("resize", () => {
           app.renderer.resize(window.innerWidth, window.innerHeight);
-          character.x = app.screen.width / 2;
-          character.y = app.screen.height - 20;
+          updatePositions();
         });
 
         app.stage.addChild(character);
+        updatePositions();
       })();
     </script>
   </body>
