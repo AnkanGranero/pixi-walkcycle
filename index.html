@@ -55,7 +55,7 @@
         document.body.appendChild(app.canvas);
 
         const frameCount = 14;
-        const screenScale = app.screen.height / 800;  
+        const screenScale = app.screen.height / 800;
         const textures = [];
 
         for (let i = 1; i <= frameCount; i++) {
@@ -209,6 +209,12 @@
               hill.x -= hillWorldWidth;
             }
           }
+        });
+
+        window.addEventListener("resize", () => {
+          app.renderer.resize(window.innerWidth, window.innerHeight);
+          character.x = app.screen.width / 2;
+          character.y = app.screen.height - 20;
         });
 
         app.stage.addChild(character);
