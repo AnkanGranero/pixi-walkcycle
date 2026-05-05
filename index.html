@@ -61,7 +61,7 @@
         for (let i = 1; i <= frameCount; i++) {
           const num = String(i).padStart(3, "0");
           const texture = await PIXI.Assets.load(
-            `walkcycle/Walk with bundle_${num}.png`,
+            `walkcycle_web/Walk with bundle_${num}.png`,
           );
           textures.push(texture);
         }
@@ -72,7 +72,7 @@
         character.anchor.set(0.4, 1.0);
         character.x = app.screen.width / 2;
         character.y = app.screen.height - 20;
-        character.scale = 0.3 * screenScale;
+        character.scale = 0.6 * screenScale;
 
         const keys = {};
 
@@ -170,7 +170,7 @@
           const movingRight = keys["ArrowRight"];
 
           if (movingRight) {
-            character.scale.set(0.3 * screenScale, 0.3 * screenScale);
+            character.scale.set(0.6 * screenScale, 0.6 * screenScale);
             for (const tree of trees) {
               tree.x -= speed;
             }
@@ -178,7 +178,7 @@
               hill.x -= hillSpeed;
             }
           } else if (movingLeft) {
-            character.scale.set(-0.3 * screenScale, 0.3 * screenScale);
+            character.scale.set(-0.6 * screenScale, 0.6 * screenScale);
             for (const tree of trees) {
               tree.x += speed;
             }
